@@ -36,6 +36,16 @@ def predict_api():
     
     except Exception as e:
         return jsonify({'error': str(e)})
+    
+
+
+@app.route('/prediction',methods=['POST'])
+def prediction():
+    data=[float(x)for x in request.form.values()]
+    finel_input=scaler.transform(np.array(data).reshape(1,-1))
+    print(finel_input)
+    output=model.predict(finel_input)[0]
+    return render_template("home.html",prediction_text="The house price prediction is {}".format(output))
 
 if __name__ == "__main__":
     app.run(debug=True)
